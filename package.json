@@ -30,6 +30,7 @@
       "!**/*-spec.{js,jsx}",
       "!dist/**/*"
     ],
+    "verbose": true,
     "concurrency": 5,
     "failFast": true,
     "failWithoutAssertions": false,

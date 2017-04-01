@@ -14,7 +14,7 @@ test('bar', async t => {
   t.is(await bar, 'bar');
 });
 
-test(t => {
+test('basic assertion', t => {
   const value = 'hello';
   t.truthy(value, 'False is not truthy');
 });
