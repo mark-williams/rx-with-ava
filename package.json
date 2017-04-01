@@ -32,7 +32,7 @@
     ],
     "verbose": true,
     "concurrency": 5,
-    "failFast": true,
+    "failFast": false,
     "failWithoutAssertions": false,
     "tap": false,
     "powerAssert": false,
