@@ -1,4 +1,9 @@
 import test from 'ava';
+import mult from './mult';
+
+test('multiplier', t => {
+  t.is(mult(3, 4), 12);
+});
 
 test('foo', t => {
   t.pass();
