@@ -1,0 +1,23 @@
+{
+  "name": "rx-with-ava",
+  "version": "1.0.0",
+  "description": "RxJs investigation",
+  "main": "index.js",
+  "author": "Mark Williams",
+  "license": "MIT",
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "^0.18.2",
+    "babel-core": "^6.23.1",
+    "babel-eslint": "^7.1.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-register": "^6.23.0",
+    "eslint": "^3.9.0",
+    "eslint-config-airbnb-es5": "^1.1.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0"
+  }
+}
