@@ -6,7 +6,9 @@
   "author": "Mark Williams",
   "license": "MIT",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "start": "lite-server",
+    "build": "webpack"
   },
   "devDependencies": {
     "ava": "^0.18.2",
@@ -18,7 +20,10 @@
     "eslint-config-airbnb-es5": "^1.1.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-react": "^6.3.0"
+    "eslint-plugin-react": "^6.3.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "lite-server": "^2.3.0",
+    "webpack": "^2.3.2"
   },
   "ava": {
     "files": [
@@ -39,5 +44,8 @@
     "require": [
       "babel-register"
     ]
+  },
+  "dependencies": {
+    "rxjs": "^5.2.1-smooth"
   }
 }
