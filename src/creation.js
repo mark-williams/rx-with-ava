@@ -10,8 +10,8 @@ const fibonaccis = Observable.create((observer) => {
   const intervalId = setInterval(() => {
     let number = last[0] + last[1];
     if (number > 100) {
-      clearInterval(intervalId);
       observer.complete();
+      clearInterval(intervalId);
     }
     last[0] = last[1];
     last[1] = number;
@@ -19,4 +19,8 @@ const fibonaccis = Observable.create((observer) => {
   }, 10);
 });
 
-export { createFromArray, fibonaccis };
+const filterEvens = (obs) => {
+  return obs.filter((n) => (n % 2 === 0));
+};
+
+export { createFromArray, fibonaccis, filterEvens };
