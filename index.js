@@ -1,2 +1,5 @@
-const content = document.getElementsByClassName('content');
-content[0].innerHTML = 'Loaded!';
+import mouseMoves from './src/events/mouse';
+
+mouseMoves.subscribe(m => {
+  console.log(m);
+});
