@@ -22,6 +22,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "extract-text-webpack-plugin": "^2.1.0",
+    "jsdom": "^9.12.0",
     "lite-server": "^2.3.0",
     "sinon": "^2.1.0",
     "webpack": "^2.3.2"
