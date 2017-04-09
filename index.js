@@ -1,5 +1,6 @@
-import mouseMove from './src/events/mouse';
 import { Observable } from 'rxjs';
+
+const apiUri = 'https://api.github.com/users';
 
 const moreButton = document.getElementById('more');
 const moreClick = Observable.fromEvent(moreButton, 'click');
@@ -7,37 +8,31 @@ const clearButton = document.getElementById('clear');
 const clearClick = Observable.fromEvent(clearButton, 'click');
 const resultsTarget = document.getElementById('results');
 
+let lastId = 0;
+
 moreClick.subscribe(() => {
-  appendData('wwww');
+  const uri = apiUri + `?since=${lastId}`;
+  fetch(uri).then(resp => {
+    resp.json()
+    .then(data => {
+      appendData(data);
+      lastId += getLastDataId(data);
+    });
+  });
 });
 
 clearClick.subscribe(() => {
   resultsTarget.innerText = '';
 });
 
+const getLastDataId = (data) => (data[data.length - 1].id);
 
 const appendData = (data) => {
-  const result = document.createElement('div');
-  result.innerText = data;
-
-  resultsTarget.appendChild(result);
+  data.forEach(appendUser);
 };
 
-
-const circles = document.getElementsByClassName('circle');
-if (circles.length) {
-  const circle = circles[0];
-  mouseMove(document)
-  .filter(e => {
-    return (e.clientX > 20 && e.clientX < (window.innerWidth - 40)) &&
-      (e.clientY > 20 && e.clientY < (window.innerHeight - 40));
-  })
-  .map(e => {
-    return { x: e.clientX, y: e.clientY };
-  })
-  .delay(200)
-  .subscribe(m => {
-    circle.style.left = m.x;
-    circle.style.top = m.y;
-  });
-}
+const appendUser = (user) => {
+  const result = document.createElement('div');
+  result.innerText = `${user.id} ${user.login}`;
+  resultsTarget.appendChild(result);
+};
