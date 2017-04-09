@@ -11,19 +11,25 @@ const resultsTarget = document.getElementById('results');
 let lastId = 0;
 
 moreClick.subscribe(() => {
-  const uri = apiUri + `?since=${lastId}`;
-  fetch(uri).then(resp => {
-    resp.json()
-    .then(data => {
-      appendData(data);
-      lastId += getLastDataId(data);
-    });
-  });
+  getData().subscribe(data => appendData(data));
 });
 
 clearClick.subscribe(() => {
   resultsTarget.innerText = '';
 });
+
+const getData = () => {
+  return Observable.create(obs => {
+    const uri = apiUri + `?since=${lastId}`;
+    fetch(uri).then(resp => {
+      resp.json()
+      .then(data => {
+        obs.next(data);
+        lastId += getLastDataId(data);
+      });
+    });
+  });
+};
 
 const getLastDataId = (data) => (data[data.length - 1].id);
 
