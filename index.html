@@ -2,6 +2,9 @@
   <head>
     <title>Welcome to RxJs</title>
     <style>
+      body {
+        padding: 20px;
+      }
       .circle {
         position: absolute;
         width: 20px;
@@ -9,12 +12,21 @@
         border-radius: 50%;
         background-color: red;
       }
+      .controls {
+        width: 200px;
+        padding: 10px 0;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="content">
-        <div class="circle"></div>
+        <div class="controls">
+          <button id="more">More</button>
+          <button id="clear">Clear</button>
+        </div>
+        <div id="results">
+        </div>
       </div>  
     </div>
     <script src="dist/bundle.js"></script>
