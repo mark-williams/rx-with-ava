@@ -9,6 +9,9 @@ const clearClick = Observable.fromEvent(clearButton, 'click');
 const resultsTarget = document.getElementById('results');
 
 let lastId = 0;
+const getUri = () => {
+  return apiUri + `?since=${lastId++}`;
+};
 
 moreClick.flatMap(() => (getData()))
   .subscribe(
@@ -21,22 +24,10 @@ clearClick.subscribe(() => {
 });
 
 const getData = () => {
-  return Observable.create(obs => {
-    const uri = apiUri + `?since=${lastId}`;
-    fetch(uri)
-      .then(resp => {
-        if (resp.ok) {
-          resp.json()
-          .then(data => {
-            obs.next(data);
-            obs.complete();
-            lastId += getLastDataId(data);
-          });
-        } else {
-          obs.error(resp);
-        }
-      });
-  }).retryWhen(retryStrategy(3, 500));
+  return Observable.fromPromise(
+    fetch(getUri())
+      .then((r) => r.json()))
+      .retryWhen(retryStrategy(3, 500));
 };
 
 const retryStrategy = (retryCount, delay) => {
@@ -50,10 +41,9 @@ const retryStrategy = (retryCount, delay) => {
   };
 };
 
-const getLastDataId = (data) => (data[data.length - 1].id);
-
 const appendData = (data) => {
   data.forEach(appendUser);
+  lastId += getLastDataId(data);
 };
 
 const appendUser = (user) => {
@@ -61,3 +51,5 @@ const appendUser = (user) => {
   result.innerText = `${user.id} ${user.login}`;
   resultsTarget.appendChild(result);
 };
+
+const getLastDataId = (data) => (data[data.length - 1].id);
