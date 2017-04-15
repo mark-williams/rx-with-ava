@@ -36,17 +36,17 @@ const getData = () => {
           obs.error(resp);
         }
       });
-  }).retryWhen(retryStrategy());
+  }).retryWhen(retryStrategy(3, 500));
 };
 
-const retryStrategy = () => {
+const retryStrategy = (retryCount, delay) => {
   return (errors) => {
     return errors
       .scan((retries) => {
         return retries + 1;
       }, 0)
-      .takeWhile((retries) => (retries < 3))
-      .delay(1000);
+      .takeWhile((retries) => (retries < retryCount))
+      .delay(delay);
   };
 };
 
