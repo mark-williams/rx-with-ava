@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-const apiUri = 'https://api.github.com/users___';
+const apiUri = 'https://api.github.com/users';
 
 const moreButton = document.getElementById('more');
 const moreClick = Observable.fromEvent(moreButton, 'click');
