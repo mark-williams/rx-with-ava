@@ -24,19 +24,28 @@ clearClick.subscribe(() => {
 });
 
 const getData = () => {
-  return Observable.fromPromise(
-    fetch(getUri())
-      .then((r) => r.json()))
-      .retryWhen(retryStrategy(3, 500));
+  return Observable.defer(() => {
+    return Observable.fromPromise(
+      fetch(getUri())
+        .then((r) => {
+          if (r.status === 200) {
+            return r.json();
+          } else {
+            return Promise.reject(r);
+          }
+        })
+    );
+  }).retryWhen(retryStrategy(3, 1000));
 };
 
-const retryStrategy = (retryCount, delay) => {
+const retryStrategy = (attempts, delay) => {
   return (errors) => {
     return errors
-      .scan((retries) => {
+      .scan((retries, value) => {
+        console.log(value);
         return retries + 1;
       }, 0)
-      .takeWhile((retries) => (retries < retryCount))
+      .takeWhile((retries) => (retries < attempts))
       .delay(delay);
   };
 };
