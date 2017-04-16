@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-const apiUri = 'https://api.github.com/users';
+const apiUri = 'https://api.github.com/users___';
 
 const moreButton = document.getElementById('more');
 const moreClick = Observable.fromEvent(moreButton, 'click');
@@ -13,11 +13,13 @@ const getUri = () => {
   return apiUri + `?since=${lastId++}`;
 };
 
-moreClick.flatMap(() => (getData()))
-  .subscribe(
+moreClick.subscribe(s => {
+  getData().subscribe(
     (d) => appendData(d),
-    () => {}
+    () => console.log('error'),
+    () => console.log('complete')
   );
+});
 
 clearClick.subscribe(() => {
   resultsTarget.innerText = '';
@@ -30,9 +32,8 @@ const getData = () => {
         .then((r) => {
           if (r.status === 200) {
             return r.json();
-          } else {
-            return Promise.reject(r);
-          }
+          } 
+          return Promise.reject(r);
         })
     );
   }).retryWhen(retryStrategy(3, 1000));
@@ -42,10 +43,11 @@ const retryStrategy = (attempts, delay) => {
   return (errors) => {
     return errors
       .scan((retries, value) => {
-        console.log(value);
-        return retries + 1;
+        if (retries + 1 < attempts) {
+          return retries + 1;
+        }
+        throw new Error(value);
       }, 0)
-      .takeWhile((retries) => (retries < attempts))
       .delay(delay);
   };
 };
