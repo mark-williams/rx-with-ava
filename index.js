@@ -13,13 +13,15 @@ const getUri = () => {
   return apiUri + `?since=${lastId++}`;
 };
 
-moreClick.subscribe(s => {
-  getData().subscribe(
-    (d) => appendData(d),
-    () => console.log('error'),
-    () => console.log('complete')
-  );
-});
+moreClick
+  .debounceTime(500)
+  .subscribe(() => {
+    getData().subscribe(
+      (d) => appendData(d),
+      () => console.log('error'),
+      () => console.log('complete')
+    );
+  });
 
 clearClick.subscribe(() => {
   resultsTarget.innerText = '';
